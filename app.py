@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 import base64
 import io
 import uuid
-from pyngrok import ngrok
+
 
 # ================== CONFIG ==================
 # Mengarah ke folder 'model' yang baru kamu upload
@@ -100,3 +100,4 @@ if __name__ == "__main__":
     # Railway memberikan port secara otomatis melalui environment variable
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
+
