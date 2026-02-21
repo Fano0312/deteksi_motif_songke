@@ -96,12 +96,7 @@ def predict_file_ajax():
 
 # ================== RUN DENGAN NGROK ==================
 if __name__ == "__main__":
-    # Menutup koneksi lama jika ada
-    ngrok.kill() 
-    
-    # Membuka tunnel baru di port 5000
-    public_url = ngrok.connect(5000).public_url
-    print(f"\n✨ LINK WEBSITE KAMU: {public_url} ✨\n")
-    
-    # Jalankan Flask
-    app.run(port=5000)
+    import os
+    # Railway memberikan port secara otomatis melalui environment variable
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
