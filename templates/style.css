@@ -1,46 +1,127 @@
+/* Reset Dasar */
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #f4f4f4;
-    text-align: center;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #f8f9fa;
     margin: 0;
     padding: 0;
+    color: #333;
 }
 
-/* MODIFIKASI UTAMA: Menggunakan max-width agar responsif */
-.container {
-    background: white;
-    margin: 20px auto; /* Margin diperkecil untuk HP */
-    padding: 20px;
-    border-radius: 12px;
-    width: 90%;      /* Mengikuti 90% lebar layar HP */
-    max-width: 450px; /* Tidak akan lebih dari 450px di Laptop */
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+/* Navigasi / Header */
+.main-header {
+    background-color: #8B0000 !important; /* Merah Marun sesuai identitas */
+    padding: 12px 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
-/* MODIFIKASI TOMBOL: Lebih besar dan nyaman untuk jari */
-button {
-    background: #8B0000; /* Warna merah marun senada dengan header */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo-img {
+    height: 45px;
+    width: auto;
+    margin-right: 12px;
+    filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.2));
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Memastikan RATA KIRI */
+    justify-content: center;
+}
+
+.brand-text {
     color: white;
-    border: none;
-    padding: 12px 25px;
-    margin-top: 15px;
-    cursor: pointer;
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: 0.5px;
+}
+
+.brand-subtext {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.85rem;
+    margin-top: 3px;
+    font-weight: 400;
+}
+
+/* Container Utama (Kartu Prediksi) */
+.container {
+    width: 92%;
+    max-width: 450px;
+    margin: 30px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Judul di dalam Box */
+h3, .card-title {
+    color: #8B0000;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+/* Input File & Form */
+.form-control {
     border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
-    width: 100%; /* Tombol memenuhi lebar kotak di HP */
-    transition: 0.3s;
+    border: 1px solid #ddd;
+    padding: 10px;
 }
 
-button:hover {
-    background: #a00000;
-    transform: translateY(-2px); /* Efek melayang saat diklik */
+/* Tombol Prediksi - Full Width untuk HP */
+.btn-primary {
+    background-color: #8B0000 !important;
+    border: none !important;
+    padding: 14px;
+    width: 100%; /* Memenuhi lebar box agar mudah diklik jempol */
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
-/* Tambahan untuk gambar preview agar tidak meluber */
+.btn-primary:hover {
+    background-color: #a00000 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(139, 0, 0, 0.3);
+}
+
+/* Gambar Preview */
 .preview-img {
     max-width: 100%;
     height: auto;
-    border-radius: 8px;
-    margin-top: 15px;
+    border-radius: 12px;
+    margin-top: 20px;
+    border: 3px solid #f0f0f0;
+}
+
+/* Footer (Opsional) */
+footer {
+    margin-top: 40px;
+    padding: 20px;
+    font-size: 0.85rem;
+    color: #777;
+    background: #eee;
+}
+
+/* Responsivitas Layar Kecil */
+@media (max-width: 480px) {
+    .brand-text {
+        font-size: 1rem;
+    }
+    .container {
+        padding: 20px;
+        margin: 15px auto;
+    }
 }
