@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Deteksi Motif Songke</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Modifikasi Warna Merah Marun */
+        .navbar-primary {
+            background-color: #8B0000 !important;
+        }
+        .card-primary.card-outline, .card-primary:not(.card-outline)>.card-header {
+            background-color: #8B0000 !important;
+        }
+        .btn-primary {
+            background-color: #8B0000 !important;
+            border-color: #8B0000 !important;
+        }
+        .preview-img {
+            max-height: 350px;
+            width: 100%;
+            object-fit: contain;
+            margin-top: 10px;
+        }
+        .loading-overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            display: none;
+        }
+        .logo-img {
+            height: 40px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+
+<body class="hold-transition sidebar-mini layout-top-nav">
+
+    <div class="wrapper">
+
+        <nav class="main-header navbar navbar-expand-md navbar-dark navbar-primary">
+            <div class="container">
+                <a href="#" class="navbar-brand">
+                    <img src="/static/logo.png" alt="Logo" class="logo-img">
+                    <span class="brand-text font-weight-light">Deteksi Motif Songke <b>By isicode</b></span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="content-wrapper">
+            <div class="content">
+                <div class="container mt-4">
+
+                    <div class="card card-primary position-relative">
+                        <div class="loading-overlay" id="loadingOverlay">
+                            <div class="text-center">
+                                <i class="fas fa-spinner fa-spin fa-3x text-primary"></i>
+                                <p class="mt-2">Memproses gambar...</p>
+                            </div>
+                        </div>
+
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-camera"></i> Upload Gambar Kain Songke</h3>
+                        </div>
+
+                        <div class="card-body">
+
+                            <input type="file" class="form-control" id="fileInput" accept="image/*"
+                                capture="environment" onchange="previewFile(event)">
+
+                            <img id="previewImage" class="preview-img" style="display:none;">
+
+                            <button class="btn btn-primary mt-3" onclick="uploadFile()">
+                                <i class="fas fa-search"></i> Prediksi
+                            </button>
+
+                            <hr>
+
+                            <div id="result"></div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        
+        <footer class="main-footer text-center">
+            <strong>Copyright &copy; 2026 isicode.</strong> All rights reserved.
+        </footer>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
+
+    <script>
+        let previewImage = document.getElementById("previewImage");
+        let resultDiv = document.getElementById("result");
+        let loadingOverlay = document.getElementById("loadingOverlay");
+
+        function previewFile(event) {
+            let reader = new FileReader();
+            reader.onload = function () {
+                previewImage.src = reader.result;
+                previewImage.style.display = "block";
+                resultDiv.innerHTML = "";
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+
+        function showLoading(show) {
+            loadingOverlay.style.display = show ? "flex" : "none";
+        }
+
+        function uploadFile() {
+            let file = document.getElementById("fileInput").files[0];
+            if (!file) {
+                alert("Pilih file terlebih dahulu!");
+                return;
+            }
+
+            let formData = new FormData();
+            formData.append("file", file);
+
+            showLoading(true);
+
+            fetch("/predict_file_ajax", {
+                method: "POST",
+                body: formData
+            })
+                .then(res => res.json())
+                .then(data => {
+                    showLoading(false);
+                    showResult(data);
+                })
+                .catch(() => {
+                    showLoading(false);
+                    alert("Terjadi kesalahan server.");
+                });
+        }
+
+        // FUNGSI SHOWRESULT TETAP ASLI SESUAI PERMINTAAN (TOP 3 PREDIKSI)
+        function showResult(data) {
+            if (data.error) {
+                resultDiv.innerHTML = `<div class="alert alert-danger">${data.error}</div>`;
+                return;
+            }
+
+            let progressBar = `
+                <div class="progress">
+                    <div class="progress-bar bg-success" role="progressbar" 
+                         style="width: ${data.confidence};"
+                         aria-valuenow="${parseFloat(data.confidence)}"
+                         aria-valuemin="0" aria-valuemax="100">
+                         ${data.confidence}
+                    </div>
+                </div>`;
+
+            // Bagian Top 3 Prediksi yang dipertahankan keasliannya
+            let top3 = data.all_predictions.slice(0, 3)
+                .map(p => `<li>${p.label} - ${(p.value * 100).toFixed(2)}%</li>`)
+                .join("");
+
+            resultDiv.innerHTML = `
+                <div class="card card-success">
+                    <div class="card-header">
+                        <h3 class="card-title">Hasil Prediksi</h3>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Motif:</strong> ${data.class}</p>
+                        ${progressBar}
+                        <p class="mt-3">${data.desc}</p>
+                        <h5>Top 3 Prediksi:</h5>
+                        <ul>${top3}</ul>
+                    </div>
+                </div>`;
+        }
+    </script>
+</body>
+</html>
