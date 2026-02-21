@@ -1,29 +1,46 @@
 body {
-    font-family: Arial, sans-serif;
-    background: #f7f7f7;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f4f4f4;
     text-align: center;
     margin: 0;
     padding: 0;
 }
 
+/* MODIFIKASI UTAMA: Menggunakan max-width agar responsif */
 .container {
     background: white;
-    margin: 50px auto;
+    margin: 20px auto; /* Margin diperkecil untuk HP */
     padding: 20px;
-    border-radius: 10px;
-    width: 400px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    width: 90%;      /* Mengikuti 90% lebar layar HP */
+    max-width: 450px; /* Tidak akan lebih dari 450px di Laptop */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
+/* MODIFIKASI TOMBOL: Lebih besar dan nyaman untuk jari */
 button {
-    background: #0066cc;
+    background: #8B0000; /* Warna merah marun senada dengan header */
     color: white;
     border: none;
-    padding: 10px;
-    margin-top: 10px;
+    padding: 12px 25px;
+    margin-top: 15px;
     cursor: pointer;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%; /* Tombol memenuhi lebar kotak di HP */
+    transition: 0.3s;
 }
 
 button:hover {
-    background: #004c99;
+    background: #a00000;
+    transform: translateY(-2px); /* Efek melayang saat diklik */
+}
+
+/* Tambahan untuk gambar preview agar tidak meluber */
+.preview-img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 15px;
 }
