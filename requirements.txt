@@ -1,6 +1,7 @@
-flask
+flaskg
+gunicorn
 tensorflow
 numpy
 pillow
 werkzeug
-gunicorn
+
