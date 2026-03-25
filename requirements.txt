@@ -3,4 +3,4 @@ tensorflow
 numpy
 pillow
 werkzeug
-ginicorn
+gunicorn
