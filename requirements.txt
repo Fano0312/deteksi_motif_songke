@@ -1,7 +1,5 @@
-flaskg
+Flask
 gunicorn
-tensorflow
+tensorflow-cpu
+Pillow
 numpy
-pillow
-werkzeug
-
